@@ -7,8 +7,8 @@ use App\PostJobModel;
 use Illuminate\Support\Facades\Route;
 use laravel\Passport\Client;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Http\File ;
 use Illuminate\Support\Str;
-use File;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +18,7 @@ class JobpostController extends Controller
     public function uploadOne(UploadedFile $uploadedfile , $folder=null , $disk='public' , $filename = null){
       $name = !is_null($filename) ? $filename : Str::random(25);
       $file = $uploadedfile->storeAs($folder,$name.'.'.$uploadedfile->getClientOriginalExtension(),$disk);
-      return false;
+      return $file;
     }
     
     public function store(Request $request){
@@ -32,24 +32,23 @@ class JobpostController extends Controller
         $stmt->Address = $request->input('Address');
         $stmt->Lastdate = $request->input('Lastdate');
         $stmt->Phone = $request->input('Phone');
-        $stmt->Icon = $request->input('Icon');
         
     if($request->has('Icon'))
     {
         $image = $request->file('Icon');
         $filename = $request->input('CompanyName');
-        $pa = 'app/public/uploads/images/';
-        $pathDB = storage_path($pa);
+        $pa = 'storage\app\public\uploads\images'.'/';
+        $pathDB = base_path($pa);
         //Define foler path
 
-        $pathlocal = '/uploades/images/';
+        $pathlocal = '\uploads\images'.'/';
         $filePath = $pathDB.$filename.'.'.$image->getClientOriginalExtension();
+        $FILE = base64_decode($filePath);
         //Uplode Image
 
         $this->uploadOne($image,$pathlocal,'public',$filename);
-        $stmt->Icon = $filePath;
+        $stmt->Icon = $FILE;
     }
-
         $stmt->save();
         $response["Job Accountment"] = $stmt;
         $response["success"] = "1";
@@ -57,6 +56,7 @@ class JobpostController extends Controller
         $form_data = array(
           $response  
         );
+
         return response()->json($form_data);
     }
 

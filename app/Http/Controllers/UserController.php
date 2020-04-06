@@ -31,11 +31,10 @@ class UserController extends Controller
         return response()->json($stu); 
     }
 
-    public function showbyid($email)
-    {
+    public function readByemail($email ,Request $request){
         $stu = Users::where('email',$email)->get();
-        return response()->json($stu);
-    }
+     return response()->json($stu);
+     }
     
 
     public function login($email , $password)

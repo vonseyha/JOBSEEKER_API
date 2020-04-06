@@ -22,11 +22,11 @@ Route::get('/user/read','UserController@read');
 Route::get('/user/login/{email}/{password}','UserController@login');
 Route::post('/user/update/{username}','UserController@update');
 Route::delete('/user/delete/{id}','UserController@delete');
-Route::get('/user/show/{email}','UserController@showbyid');
+Route::get('/user/showemail/{email}','UserController@readByemail');
 
 Route::post('/postjob/create','JobpostController@store');
 Route::get('/postjob/read','JobpostController@read');
-Route::get('/postjob/show/{Companyname}','JobpostController@showbyid');
+Route::get('/postjob/showbyemail/{id}','JobpostController@readByemail');
 Route::post('/postjob/update/{Companyname}','JobpostController@update');
 Route::delete('/postjob/delete/{id}','JobpostController@delete');
 Route::post('/postjob/updateprofile/{id}','JobpostController@updateProfile');

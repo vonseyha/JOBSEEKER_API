@@ -24,7 +24,7 @@ class CreatePostJobModelsTable extends Migration
             $table->String('Address');
             $table->String('Lastdate');
             $table->String('Phone');
-            $table->String('Icon');
+            $table->String('Icon')->nullable();
             $table->timestamps();
         });
     }
